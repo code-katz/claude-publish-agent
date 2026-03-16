@@ -1,5 +1,7 @@
 """Tests for CLI commands."""
 
+from unittest.mock import patch, MagicMock
+
 import responses
 from click.testing import CliRunner
 
@@ -80,3 +82,65 @@ def test_setup_medium_interactive(tmp_config_dir):
     assert result.exit_code == 0
     assert "Token saved" in result.output
     assert config.get_token("medium") == "my-secret-token"
+
+
+@patch("claude_publish.cli.subprocess.run")
+def test_gist_creates_secret_gist(mock_run, tmp_path):
+    """Gist command creates a secret gist and prints import instructions."""
+    # Mock gh auth status (success)
+    auth_result = MagicMock(returncode=0)
+    # Mock gh gist create
+    gist_result = MagicMock(
+        returncode=0,
+        stdout="https://gist.github.com/d6veteran/abc123\n",
+        stderr="",
+    )
+    mock_run.side_effect = [auth_result, gist_result]
+
+    md = tmp_path / "post.md"
+    md.write_text("# My Blog Post\n\nContent here.\n")
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["gist", str(md)])
+
+    assert result.exit_code == 0
+    assert "https://gist.github.com/d6veteran/abc123" in result.output
+    assert "Import a story" in result.output
+
+    # Verify --public was NOT passed (secret by default)
+    gist_cmd = mock_run.call_args_list[1][0][0]
+    assert "--public" not in gist_cmd
+
+
+@patch("claude_publish.cli.subprocess.run")
+def test_gist_public_flag(mock_run, tmp_path):
+    """--public flag is passed through to gh."""
+    auth_result = MagicMock(returncode=0)
+    gist_result = MagicMock(returncode=0, stdout="https://gist.github.com/u/123\n", stderr="")
+    mock_run.side_effect = [auth_result, gist_result]
+
+    md = tmp_path / "post.md"
+    md.write_text("# Public Post\n\nContent.\n")
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["gist", "--public", str(md)])
+
+    assert result.exit_code == 0
+    gist_cmd = mock_run.call_args_list[1][0][0]
+    assert "--public" in gist_cmd
+
+
+@patch("claude_publish.cli.subprocess.run")
+def test_gist_gh_not_authenticated(mock_run, tmp_path):
+    """Error when gh is not authenticated."""
+    import subprocess
+    mock_run.side_effect = subprocess.CalledProcessError(1, "gh")
+
+    md = tmp_path / "post.md"
+    md.write_text("# Title\n\nBody.\n")
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ["gist", str(md)])
+
+    assert result.exit_code == 1
+    assert "not authenticated" in result.output

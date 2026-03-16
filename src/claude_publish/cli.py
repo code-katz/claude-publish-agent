@@ -1,5 +1,6 @@
 """CLI entry point for claude-publish."""
 
+import subprocess
 from pathlib import Path
 
 import click
@@ -119,6 +120,66 @@ def medium(file, publish_now, tags):
         click.echo("Review your draft on Medium, then publish when ready.")
     else:
         click.echo(f"Published: {result.url}")
+
+
+@cli.command()
+@click.argument("file", type=click.Path(exists=True, dir_okay=False))
+@click.option("--public", is_flag=True, help="Create a public gist (default: secret)")
+@click.option("--description", "-d", default=None, help="Gist description")
+def gist(file, public, description):
+    """Create a GitHub Gist from a markdown file for Medium import.
+
+    Creates a gist via `gh`, then prints the raw URL you can paste
+    into Medium's "Import a story" tool.
+    """
+    filepath = Path(file)
+
+    # Verify gh is available
+    try:
+        subprocess.run(
+            ["gh", "auth", "status"],
+            capture_output=True, check=True, text=True,
+        )
+    except FileNotFoundError:
+        click.echo("Error: 'gh' CLI not found. Install it: https://cli.github.com", err=True)
+        raise SystemExit(1)
+    except subprocess.CalledProcessError:
+        click.echo("Error: 'gh' is not authenticated. Run 'gh auth login'.", err=True)
+        raise SystemExit(1)
+
+    # Extract title for description
+    try:
+        title = extract_title(filepath)
+    except ValueError as e:
+        click.echo(f"Error: {e}", err=True)
+        raise SystemExit(1)
+
+    desc = description or title
+
+    # Create gist
+    cmd = ["gh", "gist", "create", str(filepath), "--desc", desc]
+    if public:
+        cmd.append("--public")
+
+    click.echo(f"Creating gist: {title}")
+    result = subprocess.run(cmd, capture_output=True, text=True)
+
+    if result.returncode != 0:
+        click.echo(f"Gist creation failed: {result.stderr.strip()}", err=True)
+        raise SystemExit(1)
+
+    gist_url = result.stdout.strip()
+
+    # Build the raw URL for Medium import
+    # gh returns https://gist.github.com/user/id
+    # Medium needs a URL it can fetch — the gist URL itself works
+    click.echo()
+    click.echo(f"  Gist: {gist_url}")
+    click.echo()
+    click.echo("To import into Medium:")
+    click.echo(f"  1. Go to Medium.com → Your stories → Import a story")
+    click.echo(f"  2. Paste this URL: {gist_url}")
+    click.echo(f"  3. Click Import, then review and publish")
 
 
 @cli.command()
