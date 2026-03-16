@@ -1,4 +1,6 @@
-# claude-publish-agent
+<p align="center">
+  <img src="publish/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
+</p>
 
 Publish markdown to blogging platforms from the command line and Claude Code.
 
@@ -8,31 +10,33 @@ Publish markdown to blogging platforms from the command line and Claude Code.
 pipx install claude-publish-agent
 ```
 
-## Setup
+## Usage
 
-### Medium
+### Publish to Medium (via GitHub Gist)
 
-1. Go to [Medium Settings > Security and apps > Integration tokens](https://medium.com/me/settings/security)
-2. Create a token
-3. Run:
+Medium's API is closed to new tokens. Instead, `claude-publish` creates a secret GitHub Gist and gives you a URL to paste into Medium's import tool.
+
+```bash
+# Create a gist and get the import URL
+claude-publish gist post.md
+
+# Then: Medium.com → Your stories → Import a story → paste URL
+```
+
+### Medium API (legacy token holders)
+
+If you have a Medium integration token from before January 2025:
 
 ```bash
 claude-publish setup medium
+claude-publish medium post.md
+claude-publish medium post.md --publish    # publish immediately
+claude-publish medium post.md --tags "AI,Productivity"
 ```
 
-## Usage
+### Check status
 
 ```bash
-# Publish as draft (default)
-claude-publish medium post.md
-
-# Publish immediately
-claude-publish medium post.md --publish
-
-# Custom tags (max 5)
-claude-publish medium post.md --tags "AI,Productivity,Tools"
-
-# Check configured platforms
 claude-publish status
 ```
 
@@ -41,7 +45,6 @@ claude-publish status
 Install the `/publish` skill for Claude Code:
 
 ```bash
-# Copy to global skills directory
 mkdir -p ~/.claude/skills/publish
 cp SKILL.md ~/.claude/skills/publish/SKILL.md
 ```
@@ -54,9 +57,25 @@ Then in Claude Code:
 /publish posts/my-article.md
 ```
 
+## Content Kit
+
+Each project can have a `publish/` directory with branding assets that the `/publish` skill uses to keep content on-brand:
+
+```
+publish/
+├── style-guide.md          # Colors, typography, image style, voice/tone
+├── {project}-header.svg    # SVG banner for README and blog posts
+├── boilerplate.md          # (optional) Standard footer, CTAs
+└── tags.json               # (optional) Default tags per platform
+```
+
+If the `/publish` skill detects a missing content kit, it walks you through creating one — just provide a project name, tagline, and accent color.
+
+See this project's own [`publish/`](publish/) directory for an example.
+
 ## Supported Platforms
 
-- **Medium** — via integration token
+- **Medium** — via GitHub Gist import or legacy API token
 - **LinkedIn** — coming soon
 
 ## Development
