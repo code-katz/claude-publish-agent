@@ -5,6 +5,42 @@ Auto-maintained via [claude-devlog-skill](https://github.com/d6veteran/claude-de
 
 ---
 
+## [2026-03-15] Full CLI built, Medium API pivot to Gist workflow, content kit convention established
+
+**Category:** `milestone`
+**Tags:** `cli`, `medium`, `gist`, `content-kit`, `style-guide`, `platform-adapter`
+**Risk Level:** `low`
+**Breaking Change:** `no`
+
+### Summary
+Built the complete `claude-publish-agent` Python CLI with platform adapter pattern, discovered Medium's API is closed to new tokens since Jan 2025, pivoted to a GitHub Gist import workflow, and established the `publish/` content kit convention for on-brand publishing across projects.
+
+### Detail
+- Implemented full Python CLI distributed via `pipx install` with click, requests, and platform adapter pattern (ABC + registry)
+- Medium adapter ports the bash prototype to Python: `GET /v1/me` for auth, `POST /v1/users/{id}/posts` for publishing
+- Token storage at `~/.config/claude-publish/` with `chmod 600`, migration from legacy `~/.medium-token`
+- 31 tests passing across config, markdown, Medium adapter, CLI integration, and gist commands
+- Discovered Medium closed API to new integration tokens as of January 2025 — no new tokens can be generated
+- Built `claude-publish gist` command as workaround: creates a secret GitHub Gist via `gh` CLI, user pastes URL into Medium's "Import a story" tool
+- Established `publish/` directory convention as project-level content kit: `style-guide.md` + `{project}-header.svg`
+- Updated `/publish` skill to detect and scaffold missing content kits — walks user through project name, tagline, and accent color
+- Dogfooded the convention on `claude-publish-agent` itself with Muted Purple (`#8b7eb8`) accent
+
+### Decisions Made
+- **Python over bash** — Originally planned bash to match claude-team-cli. Pivoted to Python because LinkedIn (next platform) requires OAuth2 flows that are painful in bash. Click for CLI, requests for HTTP, pipx for distribution.
+- **Platform adapter pattern over flat module** — `Platform` ABC with registry dict. Adding LinkedIn = one new file + one registry line. Plugin discovery via entry_points was rejected as overkill for 2-3 platforms.
+- **Gist workflow over abandoning Medium** — Medium's API closure could have killed the project. Instead, `claude-publish gist` creates a secret Gist and the user pastes the URL into Medium's import tool. One extra step, but preserves canonical URLs and SEO.
+- **`publish/` at project root over `.claude/publish/`** — More visible, matches the tool name, signals "this project has publishing assets." `.claude/publish/` was considered but rejected as too buried.
+- **Muted Purple (`#8b7eb8`) for claude-publish-agent** — Completes the suite palette: Rust Orange (team-cli), Slate Blue (devlog), Sage Green (roadmap), Muted Purple (publish).
+- **Content kit is optional** — The tool works without `publish/`. The content kit adds brand consistency but is not a hard dependency. Skill scaffolds it on first use if missing.
+
+### Related
+- Inception entry: [2026-03-15] Project inception
+- Style guide reference: `claude-team-cli/publish/style-guide.md`
+- Medium API closure: https://help.medium.com/hc/en-us/articles/213480228-API-Importing
+
+---
+
 ## [2026-03-15] Project inception — scope and positioning decided
 
 **Category:** `strategy`
