@@ -5,6 +5,34 @@ Auto-maintained via [claude-devlog-skill](https://github.com/d6veteran/claude-de
 
 ---
 
+## [2026-03-16] Added post file naming convention and posts/ directory scaffolding to SKILL.md
+
+**Category:** `feature`
+**Tags:** `skill`, `naming-convention`, `content-kit`, `scaffolding`
+**Risk Level:** `low`
+**Breaking Change:** `no`
+
+### Summary
+Added a post file naming convention (`post-{NN}-{slug}.md` with 1-2 word slugs) to the publish skill so all projects using claude-publish-agent get consistent, scannable filenames. Updated the content kit scaffolding flow to create a `posts/` directory on first use.
+
+### Detail
+- New "Post File Naming Convention" section in SKILL.md defines the pattern: `post-{NN}-{slug}.md` where the slug is 1-2 words max (persona name, topic keyword, or short label). Full titles live in the H1 heading inside the file.
+- Includes a good/bad examples table showing the difference (e.g., `post-01-river.md` vs. `post-01-river-what-problem-does-a-jet-pack-solve.md`).
+- Skill now instructs Claude to suggest short filenames when users create posts and to offer to shorten long ones.
+- Updated the content kit scaffolding flow to create a `posts/` directory alongside `publish/style-guide.md` and the header SVG.
+- Applied the convention retroactively to `claude-team-cli/posts/` — renamed all 12 post files from long descriptive names to short slug format.
+
+### Decisions Made
+- **1-2 word slug, not full title** — Long filenames are hard to scan in file explorers and tab bars, and they duplicate information already in the H1 heading. The slug is a navigation aid, not a description.
+- **Convention lives in SKILL.md, not a separate config** — The naming convention is guidance for Claude, not a programmatic rule. Putting it in the skill instructions means it applies to every project without requiring config files.
+- **`posts/` directory created during scaffolding** — Rather than letting posts scatter through the repo root, the skill now creates `posts/` alongside the content kit. Consistent across projects.
+
+### Related
+- Applied to: `claude-team-cli/posts/` (12 files renamed)
+- Content kit scaffolding: SKILL.md § Content Kit Detection → Scaffolding Flow
+
+---
+
 ## [2026-03-15] Full CLI built, Medium API pivot to Gist workflow, content kit convention established
 
 **Category:** `milestone`

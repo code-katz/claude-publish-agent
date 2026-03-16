@@ -88,11 +88,14 @@ Then create:
 </svg>
 ```
 
+**c) `posts/` directory** — Create it if missing. This is where blog post files live, using the short naming convention (`post-{NN}-{slug}.md`).
+
 After creating the files, confirm:
 ```
 Content kit created:
   publish/style-guide.md — your brand guidelines
   publish/{project}-header.svg — README banner
+  posts/ — blog post directory (use post-{NN}-{slug}.md naming)
 
 You can add this header to your README:
   <p align="center">
@@ -107,6 +110,35 @@ When the content kit exists and the user asks you to:
 - **Create illustrations:** Use the image style guidelines and color palette from the style guide
 - **Generate a Medium/LinkedIn post:** Reference the style guide for consistent branding
 - **Review content:** Check that colors, fonts, and image specs match the style guide
+
+## Post File Naming Convention
+
+When creating or organizing blog post files, use short, scannable filenames:
+
+```
+post-{NN}-{slug}.md
+```
+
+**Rules:**
+- `{NN}` — two-digit sequence number (`00`, `01`, `02`, ...)
+- `{slug}` — **1-2 words maximum**. Use the persona name, topic keyword, or short label. Not the full title.
+- The full title lives inside the file as the `# H1` heading — never duplicate it in the filename.
+
+**Examples:**
+| Good | Bad |
+|---|---|
+| `post-00-intro.md` | `post-00-meet-my-claude-dev-team.md` |
+| `post-01-river.md` | `post-01-river-what-problem-does-a-jet-pack-solve.md` |
+| `post-05-auth.md` | `post-05-implementing-jwt-refresh-token-rotation.md` |
+| `post-11-skills.md` | `post-11-tools-that-make-the-team-remember.md` |
+
+When the user creates a new post, suggest a short filename. If they provide a long one, offer to shorten it.
+
+### Posts Directory
+
+Blog post files should live in a `posts/` directory at the project root. If the user asks to create a new post and no `posts/` directory exists, create it. Add `posts/` to `.gitignore` if the user prefers to keep drafts out of version control.
+
+---
 
 ## Workflow
 
