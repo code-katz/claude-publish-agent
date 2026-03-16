@@ -1,6 +1,6 @@
 ---
 name: publish
-description: Publish markdown files to blogging platforms (Medium, LinkedIn). Use this skill whenever the user says "publish this", "publish to Medium", "/publish", "post this to Medium", "push this to my blog", or references publishing, posting, or sharing a markdown file to a blogging platform. Draft by default — always confirm before publishing live.
+description: Publish markdown files to blogging platforms (Medium via GitHub Gist import, LinkedIn coming soon). Use this skill whenever the user says "publish this", "publish to Medium", "/publish", "post this to Medium", "push this to my blog", or references publishing, posting, or sharing a markdown file to a blogging platform.
 ---
 
 # Publish Skill
@@ -15,16 +15,10 @@ The `claude-publish` CLI must be installed:
 pipx install claude-publish-agent
 ```
 
-At least one platform must be configured. Check with:
+The `gh` CLI must be installed and authenticated (for GitHub Gist creation):
 
 ```bash
-claude-publish status
-```
-
-If no platforms are configured, guide the user through setup:
-
-```bash
-claude-publish setup medium
+gh auth status
 ```
 
 ## Trigger Conditions
@@ -42,16 +36,16 @@ Activate this skill when the user:
 - If the user specifies a file path (e.g., `/publish posts/my-article.md`), use that file
 - If the user says "publish this" in the context of a file they just created or edited, use that file
 - If ambiguous, ask: "Which markdown file should I publish?"
-- Verify the file exists before proceeding
+- Verify the file exists and has an `# H1` title line before proceeding
 
-### Step 2: Check Platform Configuration
+### Step 2: Choose the Platform
 
-Run `claude-publish status` to see which platforms are configured.
+Ask the user where they want to publish:
 
-- If **no platforms** are configured, tell the user and offer to run setup:
-  "No platforms are configured yet. Want me to run `claude-publish setup medium` to get you started?"
-- If **one platform** is configured, use it automatically
-- If **multiple platforms** are configured, ask which one to use
+- **Medium** — Uses the gist-based import workflow (Medium's API is closed to new tokens)
+- **LinkedIn** — Coming soon
+
+If the user already specified the platform (e.g., "publish to Medium"), skip this step.
 
 ### Step 3: Preview and Confirm
 
@@ -65,43 +59,49 @@ Ready to publish to Medium:
 
   Title:  [extracted title]
   File:   [file path]
-  Status: Draft (review on Medium before going live)
-  Tags:   Claude, Claude Code, AI Development, Developer Tools, AI Agents
+  Method: GitHub Gist → Medium Import
 
 Proceed?
 ```
 
-3. If the user wants custom tags, ask for them (comma-separated, max 5)
-4. If the user explicitly asks to publish live (not as a draft), confirm with an extra warning:
-   "This will publish immediately — it will be visible to readers right away. Are you sure?"
+### Step 4: Publish (Medium via Gist)
 
-### Step 4: Publish
-
-Run the appropriate command:
+Run the gist command:
 
 ```bash
-# Draft (default)
-claude-publish medium <file.md>
-
-# With custom tags
-claude-publish medium <file.md> --tags "Tag1,Tag2,Tag3"
-
-# Publish immediately (only when explicitly confirmed)
-claude-publish medium <file.md> --publish
+claude-publish gist <file.md>
 ```
 
-### Step 5: Report Result
+This creates a secret GitHub Gist and returns a URL.
 
-On success, show the URL clearly:
+### Step 5: Report Result and Guide Import
 
-- **Draft:** "Draft created at [URL]. Review your draft on Medium, then publish when ready."
-- **Published:** "Published at [URL]."
+On success, show the gist URL and walk the user through the import:
 
-On failure, show the error message from the CLI and suggest next steps (e.g., check token, check network).
+```
+Gist created: [URL]
+
+To finish importing into Medium:
+  1. Go to Medium.com → Your stories → Import a story
+  2. Paste this URL: [URL]
+  3. Click Import, then review and publish
+```
+
+On failure, show the error message from the CLI and suggest next steps.
+
+## Medium API (Legacy Token Users)
+
+If the user already has a Medium integration token (from before January 2025), they can use the direct API instead:
+
+```bash
+claude-publish setup medium
+claude-publish medium <file.md>
+```
+
+This publishes directly as a draft without the gist step. Only offer this if the user mentions having an existing token.
 
 ## Important Notes
 
-- **Always default to draft.** Never publish live unless the user explicitly asks and confirms.
 - **Do not modify the markdown file.** Publish it as-is. If the user wants changes, they should edit the file first.
-- **Tags are optional.** The CLI has sensible defaults. Only ask about tags if the user mentions them.
 - **One file at a time.** Do not batch-publish multiple files without explicit instruction.
+- **Gists are secret by default.** Only use `--public` if the user explicitly asks.
