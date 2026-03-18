@@ -2,6 +2,8 @@
   <img src="publish/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
 </p>
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue) ![Works with Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-8A2BE2)
+
 Publish markdown to blogging platforms from the command line and Claude Code.
 
 ## Install
@@ -81,7 +83,7 @@ See this project's own [`publish/`](publish/) directory for an example.
 ## Development
 
 ```bash
-git clone https://github.com/d6veteran/claude-publish-agent.git
+git clone https://github.com/code-katz/claude-publish-agent.git
 cd claude-publish-agent
 pipx install -e ".[dev]"
 pytest tests/ -v
