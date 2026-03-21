@@ -96,6 +96,7 @@ Content kit created:
   publish/style-guide.md — your brand guidelines
   publish/{project}-header.svg — README banner
   publish/posts/ — blog post directory (use post-{NN}-{slug}.md naming)
+  .gitignore — added publish/posts/ (drafts stay out of version control)
 
 You can add this header to your README:
   <p align="center">
@@ -146,7 +147,9 @@ When the user creates a new post, suggest a short filename. If they provide a lo
 
 ### Posts Directory
 
-Blog post files should live in `publish/posts/` — inside the content kit directory. If the user asks to create a new post and no `publish/posts/` directory exists, create it. Add `publish/posts/` to `.gitignore` if the user prefers to keep drafts out of version control.
+Blog post files should live in `publish/posts/` — inside the content kit directory. If the user asks to create a new post and no `publish/posts/` directory exists, create it.
+
+When creating `publish/posts/` (either during scaffolding or on first post creation), automatically add `publish/posts/` to the project's `.gitignore`. Blog drafts should not be committed to version control by default. If the `.gitignore` doesn't exist, create it.
 
 ---
 
