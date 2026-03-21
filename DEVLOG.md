@@ -5,6 +5,31 @@ Auto-maintained via [claude-devlog-skill](https://github.com/d6veteran/claude-de
 
 ---
 
+## [2026-03-21] Moved posts/ to publish/posts/ and added Medium formatting conventions
+
+**Category:** `feature`
+**Tags:** `skill`, `content-kit`, `medium`, `formatting`
+**Risk Level:** `low`
+**Breaking Change:** `no`
+
+### Summary
+Relocated the blog posts directory from `posts/` to `publish/posts/` so posts live inside the content kit directory alongside the style guide and header assets. Added a Medium Formatting Conventions section to SKILL.md with rules for rendering prompts, slash commands, CLI commands, and project names in code formatting.
+
+### Detail
+- All references to `posts/` in SKILL.md updated to `publish/posts/` — scaffolding flow, posts directory section, and content kit confirmation output
+- New "Medium Formatting Conventions" section added to SKILL.md with four rules: user prompts as inline code, slash commands as inline code, CLI commands as fenced code blocks, project names as inline code
+- README updated: content kit tree now includes `posts/` directory, example command uses `publish/posts/` path
+
+### Decisions Made
+- **Posts inside publish/ over project root** — Posts are publishing artifacts, not source code. Nesting them under `publish/` keeps the content kit self-contained and makes `.gitignore` patterns cleaner.
+- **Medium formatting rules in SKILL.md** — These conventions ensure consistent rendering on Medium specifically, where markdown interpretation differs from GitHub. Rules are guidance for Claude, not programmatic enforcement.
+
+### Related
+- Previous entry: [2026-03-16] post file naming convention
+- Also applied: `claude-team-cli/.gitignore` updated to match
+
+---
+
 ## [2026-03-16] Added post file naming convention and posts/ directory scaffolding to SKILL.md
 
 **Category:** `feature`

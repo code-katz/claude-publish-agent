@@ -56,7 +56,7 @@ Or upload `publish.skill` via Claude.ai Project Settings.
 Then in Claude Code:
 
 ```
-/publish posts/my-article.md
+/publish publish/posts/my-article.md
 ```
 
 ## Content Kit
@@ -68,7 +68,8 @@ publish/
 ├── style-guide.md          # Colors, typography, image style, voice/tone
 ├── {project}-header.svg    # SVG banner for README and blog posts
 ├── boilerplate.md          # (optional) Standard footer, CTAs
-└── tags.json               # (optional) Default tags per platform
+├── tags.json               # (optional) Default tags per platform
+└── posts/                  # Blog post files (post-{NN}-{slug}.md)
 ```
 
 If the `/publish` skill detects a missing content kit, it walks you through creating one — just provide a project name, tagline, and accent color.

@@ -88,14 +88,14 @@ Then create:
 </svg>
 ```
 
-**c) `posts/` directory** — Create it if missing. This is where blog post files live, using the short naming convention (`post-{NN}-{slug}.md`).
+**c) `publish/posts/` directory** — Create it if missing. This is where blog post files live, using the short naming convention (`post-{NN}-{slug}.md`).
 
 After creating the files, confirm:
 ```
 Content kit created:
   publish/style-guide.md — your brand guidelines
   publish/{project}-header.svg — README banner
-  posts/ — blog post directory (use post-{NN}-{slug}.md naming)
+  publish/posts/ — blog post directory (use post-{NN}-{slug}.md naming)
 
 You can add this header to your README:
   <p align="center">
@@ -110,6 +110,16 @@ When the content kit exists and the user asks you to:
 - **Create illustrations:** Use the image style guidelines and color palette from the style guide
 - **Generate a Medium/LinkedIn post:** Reference the style guide for consistent branding
 - **Review content:** Check that colors, fonts, and image specs match the style guide
+
+### Medium Formatting Conventions
+
+When drafting or reviewing posts destined for Medium, apply these formatting rules:
+
+- **User prompts as code:** When a blog post shows the user typing a prompt or command (e.g., a Claude Code slash command or a conversation opener), wrap the prompt text in backticks so it renders as inline code on Medium. This visually separates what the user typed from narrative text.
+  - Example: `> **Me:** \`We're building a personal jet pack for consumers. I need to write the requirements for v1.\``
+- **Slash commands as code:** Always render slash commands in backticks: `/river`, `/akira`, `/devlog`.
+- **CLI commands as code blocks:** Use fenced code blocks (triple backticks) for terminal commands, not inline code.
+- **Project names as code:** Render project names like `claude-team-cli` in backticks throughout the post.
 
 ## Post File Naming Convention
 
@@ -136,7 +146,7 @@ When the user creates a new post, suggest a short filename. If they provide a lo
 
 ### Posts Directory
 
-Blog post files should live in a `posts/` directory at the project root. If the user asks to create a new post and no `posts/` directory exists, create it. Add `posts/` to `.gitignore` if the user prefers to keep drafts out of version control.
+Blog post files should live in `publish/posts/` — inside the content kit directory. If the user asks to create a new post and no `publish/posts/` directory exists, create it. Add `publish/posts/` to `.gitignore` if the user prefers to keep drafts out of version control.
 
 ---
 
