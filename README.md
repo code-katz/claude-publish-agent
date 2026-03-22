@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="publish/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
+  <img src="publish/images/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
 </p>
 
 # claude-publish-agent
@@ -103,10 +103,11 @@ Each project can have a `publish/` directory with branding assets that the `/pub
 ```
 publish/
 ├── style-guide.md          # Colors, typography, image style, voice/tone
-├── {project}-header.svg    # SVG banner for README and blog posts
+├── images/
+│   └── {project}-header.svg  # SVG banner for README and blog posts
+├── posts/                  # Blog post files (post-{NN}-{slug}.md)
 ├── boilerplate.md          # (optional) Standard footer, CTAs
-├── tags.json               # (optional) Default tags per platform
-└── posts/                  # Blog post files (post-{NN}-{slug}.md)
+└── tags.json               # (optional) Default tags per platform
 ```
 
 If the `/publish` skill detects a missing content kit, it walks you through creating one — just provide a project name, tagline, and accent color.

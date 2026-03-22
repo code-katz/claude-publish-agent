@@ -38,7 +38,9 @@ The `publish/` directory at the project root is the **content kit** — it store
 ```
 publish/
 ├── style-guide.md          # Colors, typography, image style, voice/tone
-├── {project}-header.svg    # SVG banner for README and blog posts (1280×320)
+├── images/
+│   └── {project}-header.svg  # SVG banner for README and blog posts (1280×320)
+├── posts/                  # Blog post files (post-{NN}-{slug}.md)
 ├── boilerplate.md          # (optional) Standard footer, CTAs, about section
 └── tags.json               # (optional) Default tags per platform
 ```
@@ -78,7 +80,7 @@ Then create:
 - Do's and Don'ts
 - File naming convention
 
-**b) `publish/{project}-header.svg`** — Generate the SVG header banner:
+**b) `publish/images/{project}-header.svg`** — Generate the SVG header banner:
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 320" width="1280" height="320">
   <rect width="1280" height="320" fill="#141413"/>
@@ -94,13 +96,13 @@ After creating the files, confirm:
 ```
 Content kit created:
   publish/style-guide.md — your brand guidelines
-  publish/{project}-header.svg — README banner
+  publish/images/{project}-header.svg — README banner
   publish/posts/ — blog post directory (use post-{NN}-{slug}.md naming)
   .gitignore — added publish/posts/ (drafts stay out of version control)
 
 You can add this header to your README:
   <p align="center">
-    <img src="publish/{project}-header.svg" alt="{project}" width="100%">
+    <img src="publish/images/{project}-header.svg" alt="{project}" width="100%">
   </p>
 ```
 

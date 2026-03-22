@@ -61,11 +61,11 @@ Project name rendered in monospace with accent color: `claude-publish-agent` in 
 
 - **Format:** SVG banner, 1280x320px
 - **Style:** Dark background (`#141413`), project name in monospace accent color, tagline in `#b0aea5`
-- **Location:** `publish/claude-publish-agent-header.svg`
+- **Location:** `publish/images/claude-publish-agent-header.svg`
 
 ```markdown
 <p align="center">
-  <img src="publish/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
+  <img src="publish/images/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
 </p>
 ```
 
