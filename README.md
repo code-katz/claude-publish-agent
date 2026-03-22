@@ -2,15 +2,67 @@
   <img src="publish/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
 </p>
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue) ![Works with Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-8A2BE2)
+# claude-publish-agent
 
-Publish markdown to blogging platforms from the command line and Claude Code.
+> Publish markdown to blogging platforms without leaving Claude Code.
+
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue) ![Works with Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-8A2BE2) ![Agent](https://img.shields.io/badge/type-agent-green)
+
+---
+
+## The Problem
+
+You wrote a great post. Now you need to publish it. Open Medium, paste the content, re-apply formatting that got lost, fix the code blocks, upload the header image, add tags, set the subtitle. Twenty minutes of friction for something you already wrote.
+
+If you're publishing across projects — each with its own voice, color palette, and audience — the overhead multiplies. You end up with inconsistent branding, forgotten tags, and posts that sit in drafts because the publishing step is annoying enough to skip.
+
+---
+
+## Who This Is For
+
+Developers who write in markdown and want to publish without the copy-paste-reformat dance. Especially useful if you maintain multiple projects with different brand voices and want each post to stay on-brand without thinking about it.
+
+Works as both a **CLI tool** (install with pipx, use from your terminal) and a **Claude Code skill** (type `/publish` mid-session and Claude handles it).
+
+---
+
+## See the Difference
+
+You just finished writing a blog post in your repo.
+
+**Without the publish agent:**
+
+> **You:** OK, post is done. Let me open Medium... copy the markdown... paste it... fix the code blocks that broke... re-add the header image... add tags... set the subtitle... publish.
+>
+> *(15 minutes of reformatting later)*
+
+**With the publish agent:**
+
+> **You:** /publish publish/posts/post-01-river.md
+>
+> **Claude:** Created gist. Import URL: `https://gist.github.com/...` — open Medium → Your stories → Import a story → paste this URL. I've applied the style guide formatting and included your 5 recommended tags.
+
+One command. Formatting handled. Tags included. Back to building.
+
+---
 
 ## Install
+
+### CLI (standalone)
 
 ```bash
 pipx install claude-publish-agent
 ```
+
+### Claude Code Skill
+
+```bash
+mkdir -p ~/.claude/skills/publish
+curl -o ~/.claude/skills/publish/SKILL.md \
+  https://raw.githubusercontent.com/code-katz/claude-publish-agent/main/SKILL.md
+```
+
+---
 
 ## Usage
 
@@ -42,22 +94,7 @@ claude-publish medium post.md --tags "AI,Productivity"
 claude-publish status
 ```
 
-## Claude Code Skill
-
-Install the `/publish` skill for Claude Code:
-
-```bash
-mkdir -p ~/.claude/skills/publish
-cp SKILL.md ~/.claude/skills/publish/SKILL.md
-```
-
-Or upload `publish.skill` via Claude.ai Project Settings.
-
-Then in Claude Code:
-
-```
-/publish publish/posts/my-article.md
-```
+---
 
 ## Content Kit
 
@@ -76,10 +113,14 @@ If the `/publish` skill detects a missing content kit, it walks you through crea
 
 See this project's own [`publish/`](publish/) directory for an example.
 
+---
+
 ## Supported Platforms
 
 - **Medium** — via GitHub Gist import or legacy API token
 - **LinkedIn** — coming soon
+
+---
 
 ## Development
 
@@ -89,3 +130,34 @@ cd claude-publish-agent
 pipx install -e ".[dev]"
 pytest tests/ -v
 ```
+
+---
+
+## Works Well With
+
+| Project | What it does |
+|---|---|
+| [claude-team-cli](https://github.com/code-katz/claude-team-cli) | Ten specialist personas for Claude Code — Toni helps with positioning, then you publish it |
+| [claude-devlog-skill](https://github.com/code-katz/claude-devlog-skill) | Structured development changelog — write about the decisions you logged |
+| [claude-roadmap-skill](https://github.com/code-katz/claude-roadmap-skill) | Living product roadmap — publish updates about what shipped and what's next |
+| [claude-plans-skill](https://github.com/code-katz/claude-plans-skill) | Archives finalized implementation plans — turn completed plans into case studies |
+| [claude-todo-skill](https://github.com/code-katz/claude-todo-skill) | Lightweight task scratchpad — track post ideas and publishing tasks |
+
+---
+
+## Repository Contents
+
+| File | Purpose |
+|---|---|
+| `SKILL.md` | The skill source file — Claude's instructions for the `/publish` command |
+| `src/` | CLI source code (Python) |
+| `tests/` | Test suite |
+| `publish/` | This project's own content kit (style guide, header SVG, blog posts) |
+| `DEVLOG.md` | Development log for this project |
+| `README.md` | This file |
+
+---
+
+## License
+
+See [LICENSE](LICENSE) for details.
