@@ -92,7 +92,7 @@ def test_gist_creates_secret_gist(mock_run, tmp_path):
     # Mock gh gist create
     gist_result = MagicMock(
         returncode=0,
-        stdout="https://gist.github.com/d6veteran/abc123\n",
+        stdout="https://gist.github.com/code-katz/abc123\n",
         stderr="",
     )
     mock_run.side_effect = [auth_result, gist_result]
@@ -104,7 +104,7 @@ def test_gist_creates_secret_gist(mock_run, tmp_path):
     result = runner.invoke(cli, ["gist", str(md)])
 
     assert result.exit_code == 0
-    assert "https://gist.github.com/d6veteran/abc123" in result.output
+    assert "https://gist.github.com/code-katz/abc123" in result.output
     assert "Import a story" in result.output
 
     # Verify --public was NOT passed (secret by default)

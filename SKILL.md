@@ -116,8 +116,21 @@ When the content kit exists and the user asks you to:
 
 When drafting or reviewing posts destined for Medium, apply these formatting rules:
 
-- **User prompts as code:** When a blog post shows the user typing a prompt or command (e.g., a Claude Code slash command or a conversation opener), wrap the prompt text in backticks so it renders as inline code on Medium. This visually separates what the user typed from narrative text.
-  - Example: `> **Me:** \`We're building a personal jet pack for consumers. I need to write the requirements for v1.\``
+- **Conversation dialogue as code:** In blog posts that show a conversation between the user and a Claude persona, wrap ALL dialogue text — both the user's prompts and the persona's responses — in backticks so they render as inline code on Medium. This creates a consistent "terminal/chat" visual for the entire conversation.
+  - Speaker labels (`**Me:**`, `**River:**`, etc.) go on their own line as bold text — NOT inside backticks or blockquotes.
+  - Each dialogue paragraph gets its own backtick-wrapped line, separated by a blank line from the speaker label.
+  - Do NOT use blockquote (`>`) formatting for dialogue — blockquotes render differently from backtick code on Medium.
+  - Tables, bullet lists, and other structured content within a response stay as regular markdown between backtick paragraphs.
+  - Example:
+    ```
+    **Me:**
+
+    `We're building a personal jet pack for consumers. I need to write the requirements for v1.`
+
+    **River:**
+
+    `Before we write requirements, I need to understand the problem. What specific user problem does a personal jet pack solve?`
+    ```
 - **Slash commands as code:** Always render slash commands in backticks: `/river`, `/akira`, `/devlog`.
 - **CLI commands as code blocks:** Use fenced code blocks (triple backticks) for terminal commands, not inline code.
 - **Project names as code:** Render project names like `claude-team-cli` in backticks throughout the post.
