@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="publish/images/claude-publish-agent-header.svg" alt="claude-publish-agent" width="100%">
+  <img src="publish/images/Publish_dark_banner.png" alt="claude-publish-agent" width="100%">
 </p>
 
 # claude-publish-agent
