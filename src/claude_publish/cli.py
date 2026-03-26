@@ -6,8 +6,7 @@ from pathlib import Path
 import click
 import requests
 
-from claude_publish import __version__
-from claude_publish import config
+from claude_publish import __version__, config
 from claude_publish.markdown import extract_title
 from claude_publish.platforms import get_platform
 from claude_publish.platforms.medium import DEFAULT_TAGS
@@ -48,9 +47,10 @@ def setup_medium():
             return
 
     # Check if already configured
-    if config.is_configured("medium"):
-        if not click.confirm("Medium is already configured. Replace token?", default=False):
-            return
+    if config.is_configured("medium") and not click.confirm(
+        "Medium is already configured. Replace token?", default=False
+    ):
+        return
 
     click.echo(MEDIUM_SETUP_INSTRUCTIONS)
     token = click.prompt("Paste your Medium integration token", hide_input=True)
@@ -84,7 +84,7 @@ def medium(file, publish_now, tags):
         title = extract_title(filepath)
     except ValueError as e:
         click.echo(f"Error: {e}", err=True)
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
     # Parse tags
     tag_list = [t.strip() for t in tags.split(",")] if tags else DEFAULT_TAGS
@@ -97,7 +97,7 @@ def medium(file, publish_now, tags):
         username = platform.authenticate(token)
     except (ValueError, requests.RequestException) as e:
         click.echo(f"Error: {e}", err=True)
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
     click.echo(f"Authenticated as @{username}")
 
@@ -113,7 +113,7 @@ def medium(file, publish_now, tags):
         result = platform.publish(title, content, tag_list, publish_status)
     except (ValueError, requests.RequestException) as e:
         click.echo(f"Publish failed: {e}", err=True)
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
     if publish_status == "draft":
         click.echo(f"Draft created: {result.url}")
@@ -140,19 +140,19 @@ def gist(file, public, description):
             ["gh", "auth", "status"],
             capture_output=True, check=True, text=True,
         )
-    except FileNotFoundError:
+    except FileNotFoundError as e:
         click.echo("Error: 'gh' CLI not found. Install it: https://cli.github.com", err=True)
-        raise SystemExit(1)
-    except subprocess.CalledProcessError:
+        raise SystemExit(1) from e
+    except subprocess.CalledProcessError as e:
         click.echo("Error: 'gh' is not authenticated. Run 'gh auth login'.", err=True)
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
     # Extract title for description
     try:
         title = extract_title(filepath)
     except ValueError as e:
         click.echo(f"Error: {e}", err=True)
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
     desc = description or title
 
@@ -177,9 +177,9 @@ def gist(file, public, description):
     click.echo(f"  Gist: {gist_url}")
     click.echo()
     click.echo("To import into Medium:")
-    click.echo(f"  1. Go to Medium.com → Your stories → Import a story")
+    click.echo("  1. Go to Medium.com → Your stories → Import a story")
     click.echo(f"  2. Paste this URL: {gist_url}")
-    click.echo(f"  3. Click Import, then review and publish")
+    click.echo("  3. Click Import, then review and publish")
 
 
 @cli.command()

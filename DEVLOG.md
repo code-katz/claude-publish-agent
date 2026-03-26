@@ -5,6 +5,28 @@ Auto-maintained via [claude-devlog-skill](https://github.com/code-katz/claude-de
 
 ---
 
+## [2026-03-26] Added lint check requirement to SKILL.md
+
+**Category:** `feature`
+**Tags:** `lint`, `code-quality`, `skill-behavior`, `cross-tool`
+**Risk Level:** `low`
+**Breaking Change:** `no`
+
+### Summary
+Added a "Step 1b: Lint Check" to the publish workflow, requiring the skill to verify the target project has a linter configured between content kit check and file identification.
+
+### Detail
+- New step placed after "Step 1: Check Content Kit", before "Step 2: Identify the File"
+- Labeled as "Step 1b" to fit naturally into the existing numbered workflow without renumbering
+- Same stack-appropriate linter list as all other code-katz tools: Ruff, ESLint/Biome, SwiftLint, golangci-lint, clippy, pre-commit
+- Part of a cross-tool effort to standardize lint checks across all code-katz tools
+
+### Decisions Made
+- **Step 1b rather than renumbering** — avoids a breaking change to the existing step numbering that other documentation might reference
+- **After content kit check** — linting is a project-level concern, and the content kit check already establishes project context, so linting follows naturally
+
+---
+
 ## [2026-03-21] Moved posts/ to publish/posts/ and added Medium formatting conventions
 
 **Category:** `feature`

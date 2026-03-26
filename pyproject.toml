@@ -20,4 +20,28 @@ claude-publish = "claude_publish.cli:cli"
 packages = ["src/claude_publish"]
 
 [project.optional-dependencies]
-dev = ["pytest", "pytest-cov", "responses"]
+dev = ["pytest", "pytest-cov", "responses", "ruff"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",     # pycodestyle errors
+    "W",     # pycodestyle warnings
+    "F",     # pyflakes
+    "I",     # isort
+    "UP",    # pyupgrade
+    "B",     # flake8-bugbear
+    "SIM",   # flake8-simplify
+    "S",     # flake8-bandit (security)
+]
+ignore = [
+    "S603",  # subprocess call - check for execution of untrusted input
+    "S607",  # starting a process with a partial executable path
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]  # allow assert in tests

@@ -1,6 +1,6 @@
 # claude-publish-agent — Product Roadmap
 
-> Maintained by claude-roadmap-skill. Last updated: 2026-03-15.
+> Maintained by claude-roadmap-skill. Last updated: 2026-03-26.
 
 ---
 
@@ -8,7 +8,7 @@
 
 ### Current State Snapshot
 
-**What works:** CLI publishes markdown to Medium via GitHub Gist import or legacy API token. `/publish` skill scaffolds content kits and guides the publishing workflow in Claude Code. Content kit convention (`publish/` directory with style-guide.md + SVG header) is live across all four suite repos. 31 tests passing.
+**What works:** CLI publishes markdown to Medium via GitHub Gist import or legacy API token. `/publish` skill scaffolds content kits and guides the publishing workflow in Claude Code. Content kit convention (`publish/` directory with style-guide.md + SVG header) is live across all four suite repos. Lint check on first use verifies target project has a linter configured. 31 tests passing.
 
 **What's fragile:** Medium-only. The tool's value is tied to a single platform whose API is closed to new users. The Gist import workaround works but adds a manual step.
 
@@ -82,6 +82,23 @@ v0.1.0 (shipped) → LinkedIn → Publishing Log → Dev.to → Cross-Post
 ---
 
 ## Revision History
+
+### [2026-03-26] Added lint check to publish workflow
+
+**Change Type:** `add`
+**Triggered by:** `delivery`
+**Items Affected:** Skill behavior (non-roadmap infrastructure)
+
+#### What Changed
+Added "Step 1b: Lint Check" to the `/publish` skill workflow. The skill now verifies the target project has a linter configured (Ruff, ESLint/Biome, SwiftLint, golangci-lint, clippy, pre-commit) on first use per session and flags missing config before proceeding.
+
+#### Why
+Cross-tool standardization — the lint check requirement was added to `claude-team-cli`'s coordinator profile and is now being rolled out to all code-katz tools. Code quality gating is a prerequisite behavior, not an afterthought.
+
+#### Open Questions Resolved / Added
+- None — this is an infrastructure behavior, not a product feature.
+
+---
 
 ### [2026-03-15] Initial roadmap — 10 features across 3 tiers
 

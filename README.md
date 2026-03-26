@@ -112,6 +112,8 @@ publish/
 
 If the `/publish` skill detects a missing content kit, it walks you through creating one — just provide a project name, tagline, and accent color.
 
+The skill also checks for linter configuration on first use — if no linter is configured for your project's stack, it flags it and recommends one before proceeding.
+
 See this project's own [`publish/`](publish/) directory for an example.
 
 ---

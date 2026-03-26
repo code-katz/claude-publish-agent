@@ -176,6 +176,19 @@ Before anything else, check for `publish/style-guide.md` in the project root.
 - If missing, run the scaffolding flow above
 - If present, read it for context
 
+### Step 1b: Lint Check
+
+Verify that the project has a linter configured. Check for stack-appropriate lint configuration files:
+
+- **Python**: `ruff.toml`, `pyproject.toml` with `[tool.ruff]`, `.flake8`
+- **JavaScript/TypeScript**: `.eslintrc*`, `eslint.config.*`, `biome.json`, or a `lint` script in `package.json`
+- **Swift/iOS**: `.swiftlint.yml`
+- **Go**: `.golangci.yml`
+- **Rust**: `clippy` configuration in `Cargo.toml`
+- **General**: `.pre-commit-config.yaml`
+
+If no linter is configured, flag it to the user before proceeding. Recommend: Ruff for Python, ESLint or Biome for JS/TS, SwiftLint for Swift, golangci-lint for Go, clippy for Rust. Frame it as a prerequisite, not an afterthought.
+
 ### Step 2: Identify the File
 
 - If the user specifies a file path (e.g., `/publish posts/my-article.md`), use that file

@@ -1,6 +1,5 @@
 """Token storage and configuration management."""
 
-import os
 import stat
 from pathlib import Path
 
