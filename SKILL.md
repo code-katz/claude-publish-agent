@@ -136,7 +136,7 @@ When drafting or reviewing posts destined for Medium, apply these formatting rul
 - **Slash commands as code:** Always render slash commands in backticks: `/river`, `/akira`, `/devlog`.
 - **CLI commands as code blocks:** Use fenced code blocks (triple backticks) for terminal commands, not inline code.
 - **Project names as code:** Render project names like `claude-team-cli` in backticks throughout the post.
-- **No emdashes:** Never use emdashes (the long dash character) in blog post content. Use regular hyphens with spaces ( - ), commas, colons, or semicolons instead. This applies to all drafted, reviewed, and formatted content.
+- **No emdashes:** Never use emdashes (the long dash character) in blog post content. Instead of substituting a different dash, restructure the sentence to use commas, colons, semicolons, parentheses, or separate sentences. This applies to all drafted, reviewed, and formatted content.
 
 ## Post File Naming Convention
 
