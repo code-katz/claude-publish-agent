@@ -14,7 +14,7 @@
 
 You wrote a great post. Now you need to publish it. Open Medium, paste the content, re-apply formatting that got lost, fix the code blocks, upload the header image, add tags, set the subtitle. Twenty minutes of friction for something you already wrote.
 
-If you're publishing across projects — each with its own voice, color palette, and audience — the overhead multiplies. You end up with inconsistent branding, forgotten tags, and posts that sit in drafts because the publishing step is annoying enough to skip.
+If you're publishing across projects, each with its own voice, color palette, and audience, the overhead multiplies. You end up with inconsistent branding, forgotten tags, and posts that sit in drafts because the publishing step is annoying enough to skip.
 
 ---
 
@@ -40,7 +40,7 @@ You just finished writing a blog post in your repo.
 
 > **You:** /publish publish/posts/post-01-river.md
 >
-> **Claude:** Created gist. Import URL: `https://gist.github.com/...` — open Medium → Your stories → Import a story → paste this URL. I've applied the style guide formatting and included your 5 recommended tags.
+> **Claude:** Created gist. Import URL: `https://gist.github.com/...`. Open Medium → Your stories → Import a story → paste this URL. I've applied the style guide formatting and included your 5 recommended tags.
 
 One command. Formatting handled. Tags included. Back to building.
 
@@ -110,9 +110,17 @@ publish/
 └── tags.json               # (optional) Default tags per platform
 ```
 
-If the `/publish` skill detects a missing content kit, it walks you through creating one — just provide a project name, tagline, and accent color.
+If the `/publish` skill detects a missing content kit, it walks you through creating one: just provide a project name, tagline, and accent color.
 
-The skill also checks for linter configuration on first use — if no linter is configured for your project's stack, it flags it and recommends one before proceeding.
+The skill also checks for linter configuration on first use. If no linter is configured for your project's stack, it flags it and recommends one before proceeding.
+
+### Formatting conventions
+
+The `/publish` skill enforces formatting rules when drafting, reviewing, or formatting content:
+
+- **No emdashes.** The skill restructures sentences to use commas, colons, semicolons, parentheses, or separate sentences instead of emdashes. This keeps published content clean and consistent across posts.
+- **Conversation dialogue as code.** In posts that show a conversation between the user and a Claude persona, all dialogue text renders as inline code (backticks) for a consistent terminal/chat visual.
+- **Slash commands, CLI commands, and project names** render in code formatting throughout.
 
 See this project's own [`publish/`](publish/) directory for an example.
 
@@ -120,8 +128,8 @@ See this project's own [`publish/`](publish/) directory for an example.
 
 ## Supported Platforms
 
-- **Medium** — via GitHub Gist import or legacy API token
-- **LinkedIn** — coming soon
+- **Medium** via GitHub Gist import or legacy API token
+- **LinkedIn** (coming soon)
 
 ---
 
@@ -140,11 +148,11 @@ pytest tests/ -v
 
 | Project | What it does |
 |---|---|
-| [claude-team-cli](https://github.com/code-katz/claude-team-cli) | Ten specialist personas for Claude Code — Toni helps with positioning, then you publish it |
-| [claude-devlog-skill](https://github.com/code-katz/claude-devlog-skill) | Structured development changelog — write about the decisions you logged |
-| [claude-roadmap-skill](https://github.com/code-katz/claude-roadmap-skill) | Living product roadmap — publish updates about what shipped and what's next |
-| [claude-plans-skill](https://github.com/code-katz/claude-plans-skill) | Archives finalized implementation plans — turn completed plans into case studies |
-| [claude-todo-skill](https://github.com/code-katz/claude-todo-skill) | Lightweight task scratchpad — track post ideas and publishing tasks |
+| [claude-team-cli](https://github.com/code-katz/claude-team-cli) | Eleven specialist personas for Claude Code; Toni helps with positioning, then you publish it |
+| [claude-devlog-skill](https://github.com/code-katz/claude-devlog-skill) | Structured development changelog; write about the decisions you logged |
+| [claude-roadmap-skill](https://github.com/code-katz/claude-roadmap-skill) | Living product roadmap with revision history; publish updates about what shipped and what's next |
+| [claude-plans-skill](https://github.com/code-katz/claude-plans-skill) | Archives finalized implementation plans; turn completed plans into case studies |
+| [claude-todo-skill](https://github.com/code-katz/claude-todo-skill) | Lightweight task scratchpad; track post ideas and publishing tasks |
 
 ---
 
@@ -152,7 +160,7 @@ pytest tests/ -v
 
 | File | Purpose |
 |---|---|
-| `SKILL.md` | The skill source file — Claude's instructions for the `/publish` command |
+| `SKILL.md` | The skill source file (Claude's instructions for the `/publish` command) |
 | `src/` | CLI source code (Python) |
 | `tests/` | Test suite |
 | `publish/` | This project's own content kit (style guide, header SVG, blog posts) |
