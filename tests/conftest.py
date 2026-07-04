@@ -1,7 +1,7 @@
 """Shared test fixtures."""
 
+
 import pytest
-from pathlib import Path
 
 from claude_publish import config as config_module
 

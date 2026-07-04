@@ -1,0 +1,6 @@
+{
+  "name": "claude-publish",
+  "description": "Publish markdown to blogging platforms: Medium via the gist import flow, with a content-kit (style guide, banners, post naming) that keeps published content on-brand.",
+  "version": "0.2.0",
+  "author": { "name": "Code Katz" }
+}

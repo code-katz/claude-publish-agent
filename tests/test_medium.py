@@ -3,7 +3,7 @@
 import pytest
 import responses
 
-from claude_publish.platforms.medium import MediumPlatform, API_BASE
+from claude_publish.platforms.medium import API_BASE, MediumPlatform
 
 
 @pytest.fixture
