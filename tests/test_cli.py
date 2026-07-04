@@ -1,6 +1,6 @@
 """Tests for CLI commands."""
 
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import responses
 from click.testing import CliRunner

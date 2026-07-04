@@ -18,6 +18,7 @@ class MediumPlatform(Platform):
     def __init__(self) -> None:
         self._user_id: str | None = None
         self._username: str | None = None
+        self._token: str | None = None
 
     def authenticate(self, token: str) -> str:
         """Authenticate with Medium and return username."""

@@ -48,18 +48,29 @@ One command. Formatting handled. Tags included. Back to building.
 
 ## Install
 
-### CLI (standalone)
+### CLI (required for publishing)
+
+The package is not on PyPI; install from the repo:
 
 ```bash
-pipx install claude-publish-agent
+pipx install git+https://github.com/code-katz/claude-publish-agent
 ```
 
-### Claude Code Skill
+### Claude Code Skill — as a plugin (recommended)
+
+```
+/plugin marketplace add code-katz/claude-plugins
+/plugin install claude-publish@code-katz
+```
+
+The plugin provides the `/publish` skill; the CLI above remains a prerequisite for the actual publish step.
+
+### Claude Code Skill — manual install
 
 ```bash
 mkdir -p ~/.claude/skills/publish
 curl -o ~/.claude/skills/publish/SKILL.md \
-  https://raw.githubusercontent.com/code-katz/claude-publish-agent/main/SKILL.md
+  https://raw.githubusercontent.com/code-katz/claude-publish-agent/main/skills/publish/SKILL.md
 ```
 
 ---
